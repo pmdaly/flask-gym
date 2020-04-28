@@ -1,33 +1,33 @@
-#!/usr/bin/env python                                                                                                                                                                          
-# -*- coding: utf-8 -*-                                                                                                                                                                        
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-from flask import Flask, stream_with_context, request, Response, flash                                                                                                                         
-from time import sleep 
+from flask import Flask, stream_with_context, request, Response, flash
+from time import sleep
 
-import gym 
+import gym
 import numpy as np
 from PIL import Image
-import io                                                                                                                                             
+import io
 
-app = Flask(__name__)                                                                                                                                                                          
+app = Flask(__name__)
 
-def stream_template(template_name, **context):                                                                                                                                                 
-    app.update_template_context(context)                                                                                                                                                       
-    t = app.jinja_env.get_template(template_name)                                                                                                                                              
-    rv = t.stream(context)                                                                                                                                                                     
-    rv.disable_buffering()                                                                                                                                                                     
-    return rv                                                                                                                                                                                  
+def stream_template(template_name, **context):
+    app.update_template_context(context)
+    t = app.jinja_env.get_template(template_name)
+    rv = t.stream(context)
+    rv.disable_buffering()
+    return rv
 
 env = gym.make('LunarLander-v2')
 env.reset()
 
-def generate():  
+def generate():
     d = False
     env.reset()
-    while True:                                                                                                                                   
+    while True:
         _, _, d, _ = env.step(env.action_space.sample())
-        
-        img = env.render(mode='rgb_array') 
+
+        img = env.render(mode='rgb_array')
         im = np.flip(img.transpose((0, 1, 2)), 1)
 
         # convert numpy array to PIL Image
@@ -47,12 +47,12 @@ def generate():
 def index():
     return render_template('index.html')
 
-@app.route('/stream')                                                                                                                                                                          
-def stream_view():                                                                                                                                                                             
-    rows = generate()                                                                                                                                                                          
+@app.route('/stream')
+def stream_view():
+    rows = generate()
     return Response(generate(),
-		mimetype = "multipart/x-mixed-replace; boundary=frame")                                                                                                                              
+		mimetype = "multipart/x-mixed-replace; boundary=frame")
 
-if __name__ == '__main__':                                                                                                                                                                     
-    app.debug = True                                                                                                                                                                           
-    app.run()   
+if __name__ == '__main__':
+    app.debug = True
+    app.run(port=7878)

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, stream_with_context, request, Response, flash
+from flask import render_template
 from time import sleep
 
 import gym

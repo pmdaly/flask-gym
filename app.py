@@ -1,15 +1,15 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
+import gym
+import io
+import numpy as np
+import pyvirtualdisplay as pvd
+from PIL import Image
 from flask import Flask, stream_with_context, request, Response, flash
 from flask import render_template
 from time import sleep
 
-import gym
-import numpy as np
-from PIL import Image
-import io
 
+_display = pvd.Display(visible=False, size=(1400, 900))
+_display.start()
 app = Flask(__name__)
 
 def stream_template(template_name, **context):

@@ -55,5 +55,4 @@ def stream_view():
 		mimetype = "multipart/x-mixed-replace; boundary=frame")
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run(port=7878)
+    app.run(host='0.0.0.0')

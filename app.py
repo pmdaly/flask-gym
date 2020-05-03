@@ -19,7 +19,7 @@ def stream_template(template_name, **context):
     rv.disable_buffering()
     return rv
 
-env = gym.make('LunarLander-v2')
+env = gym.make('CartPole-v0')
 env.reset()
 
 def generate():
